@@ -1,0 +1,13 @@
+package com.spring.app.spring_boot_tomcat_rest_crud;
+
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+public class ServletInitializer extends SpringBootServletInitializer {
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(SpringBootTomcatRestApplication.class);
+	}
+
+}

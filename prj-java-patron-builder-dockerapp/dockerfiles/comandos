@@ -1,0 +1,9 @@
+
+-- llevar jar y Dockerfile a la misma carpeta
+-- para contruir la imagen
+
+-- crear imagen
+docker build . -t "testdocker/java"
+
+-- ejecutar imagen
+docker run -p 8082:8082 miTestDocker

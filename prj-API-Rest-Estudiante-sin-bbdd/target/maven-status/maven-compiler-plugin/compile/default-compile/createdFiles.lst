@@ -1,0 +1,6 @@
+com\marquake\servicios\EstudianteServicioIF.class
+com\marquake\dao\EstudianteDAO.class
+com\marquake\controller\ControladorEstudiante.class
+com\marquake\servicios\EstudianteServicioImpl.class
+com\marquake\dao\EstudianteDAOImpl.class
+com\marquake\data\Estudiante.class

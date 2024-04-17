@@ -1,0 +1,123 @@
+en el pom añado la dependencia web
+
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>5.3.3</version>
+</dependency>
+
+
+añado la dependencia servlet
+
+<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.1</version>
+    <scope>provided</scope>
+</dependency>
+
+
+añado dependencia jstl
+
+<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version>
+</dependency>
+
+
+Cambio el nombre de index.jsp a home.jsp
+
+añado
+
+<%@ page language='java' contentType='text/html;charset=iso-8859-1' isELIgnored="false" pageEncoding="ISO-8859-1" %>
+
+
+a la jsp
+
+creo el aplication context
+ApplicationContextConfiguration
+
+añado la anotación de configuración
+
+@Configuration
+
+
+Añado al aplication context el bean que me controla de donde sacar las vistas.
+	@Bean (name = "viewResolver")
+	public InternalResourceViewResolver getViewResolver() {
+
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		
+		// indico la raiz donde van a estar mis jsp, raiz de "WEB-INF"
+		viewResolver.setPrefix("/");
+		
+		// indico la extension de las jsp
+		viewResolver.setSuffix(".jsp");
+
+		return viewResolver;
+	}
+
+	
+creo el controllador e indica que quiero navegar a la jsp home
+
+
+public class MessageDisplayController implements Controller {
+
+	public MessageDisplayController() {
+	}
+
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return new ModelAndView("home");
+	}
+
+}
+
+
+
+creo el bean del controlador dentro del application context configuration
+
+	// Indico el bean que me retornará el controlador
+	@Bean(name="/")
+	public Controller getMessageDisplayContoler() {
+		return new MessageDisplayController();
+	}
+	
+	
+Creo el bean con la configuración del servlet del servidor.
+
+// esta clase es el servlet que controlará una app con el model MVC.
+// Como es un inicializador, el contenedor spring la carga automáticamente.
+public class WebServletConfiguration implements WebApplicationInitializer {
+
+	public WebServletConfiguration() {
+	}
+
+	public void onStartup(ServletContext servletContext) throws ServletException {
+
+		AnnotationConfigWebApplicationContext appContext = new AnnotationConfigWebApplicationContext();
+		
+		// registramos el contexto de nuestra aplicación
+		appContext.register(ApplicationContextConfiguration.class);
+		
+		// En las aplicaciones Spring MVC hay que indicar el servlet explicitamente.
+		// añado un nuevo servlet con el contexto de la aplicación, el que yo he creado.
+		ServletRegistration.Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet( appContext)) ;
+		
+		servlet.setLoadOnStartup(1);
+
+		servlet.addMapping("/");
+	}
+
+}
+
+Arranco el proycecto como RUN AS > MAVEL  BUID con las metas clean verify
+ya tengo creada la configuración.
+
+hago un update de Maven Proyect
+
+ejecuto como maven build.
+

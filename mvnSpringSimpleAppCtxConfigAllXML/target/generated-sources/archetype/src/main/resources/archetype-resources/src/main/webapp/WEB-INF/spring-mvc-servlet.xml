@@ -1,0 +1,40 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    ">
+
+	<!--  se indica que se van a usar anotaciones, estas no son especificas del MVC  --> 
+	<!-- todos los beans, controllers, components, repositorios, etc.. deben soportar anotaciones -->
+ 	<context:annotation-config></context:annotation-config>
+ 
+ 	<!-- paquete base desde donde se buscan componentes de spring para inyectar. 
+ 	<context:component-scan base-package="${package}"></context:component-scan>
+	-->
+ 
+ 	<context:component-scan base-package="${package}" />
+ 	<context:component-scan base-package="${package}.controller" />
+  	<context:component-scan base-package="${package}.servicios" />
+ 	<context:component-scan base-package="${package}.dao" />
+ 	<context:component-scan base-package="${package}.data" />
+ 
+ 	<!-- ahora se indican las anotaciones especificas para el Sprig MVC -->
+ 	<mvc:annotation-driven/>
+
+	<!-- para que la navegación sea correcta, se necesita encontrar los fuentes -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+ </beans>
